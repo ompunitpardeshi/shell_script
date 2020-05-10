@@ -1,12 +1,16 @@
 #!/bin/bash
 
-read -p "Enter user name: " username
-#a=$username
-a=`id $username`
+read -p "Enter user name: "  username
+a=$(cat /etc/passwd | grep ^$username | awk -F ':' '{print $1}')
 #echo "$a"
-if [  ]
+date=`date +%T`
+#read -p "Enter file name: " filename
+home=`cat /etc/passwd | cut -d ':' -f 6 | grep /home/$username`
+if [ $a ]
 then
-	echo "$username is valid user."
+	echo "user is valid"
+	touch $home/om_$date
 else
-	echo "$username not valid user."
+	echo "user is not valid"
+	touch /tmp/om_$date
 fi
